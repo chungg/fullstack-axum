@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}demo{% endblock %}
+{% block body_content %}
+  <section class="hero is-fullheight">
+    <div class="hero-head has-background-grey-dark">
+      <nav class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="../">
+              <img src="http://bulma.io/images/bulma-type-white.png" alt="Logo">
+            </a>
+            <span class="navbar-burger burger" data-target="navbarMenu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+          <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-end">
+              <a
+                class="navbar-item has-text-primary"
+                hx-boost="true"
+                href="/analytics">
+                <span class="icon">
+                  <i class="fa fa-superpowers"></i>
+                </span>
+                <span>Analytics</span>
+              </a>
+              <a class="navbar-item has-text-light" href="/api/login">
+                <span class="icon">
+                  <i class="fa fa-book"></i>
+                </span>
+                <span>Login</span>
+              </a>
+              <!-- alternative to hx-boost -->
+              <a
+                class="navbar-item has-text-light"
+                hx-push-url="true"
+                hx-select-oob="body"
+                hx-target="body"
+                hx-get="/yahoo">
+                <span class="icon">
+                  <i class="fa fa-github"></i>
+                </span>
+                <span>View Source</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <div class="column is-6 is-offset-3">
+          <h1 class="title">
+            Title
+          </h1>
+          <h2 class="subtitle">
+            Subtitle
+          </h2>
+        </div>
+      </div>
+    </div>
+
+  </section>
+{% endblock %}

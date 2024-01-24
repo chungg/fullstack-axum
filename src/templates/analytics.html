@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}charts{% endblock %}
+{% block body_content %}
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Chart
+      </h1>
+      <hr></hr>
+      <div class="field">
+        <input id="switchSalesView" type="checkbox" name="switchSalesView" class="switch"
+          onchange="toggleView(this, Chart.getChart('lineChartId'))"
+          autocomplete="off">
+        <label for="switchSalesView">As Percentage</label>
+      </div>
+      <canvas
+        hx-get="/hx/v1/data/sales"
+        hx-trigger="pageReady from:body"
+        hx-indicator='.htmx-indicator'
+        hx-swap="beforeend"
+        hx-target="body"
+        id="lineChartId"></canvas>
+      <sup>source: https://data.bts.gov/Research-and-Statistics/Auto-Sales/7n6a-n5tz</sup>
+      <progress class="progress is-small htmx-indicator" max="100"></progress>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="field">
+          <button
+            class="button"
+            hx-get="/hx/v1/data/random"
+            hx-trigger="click, pageReady from:body"
+            hx-swap="beforeend"
+            hx-target="body">populate</button>
+        </div>
+      </div>
+      <div class="column is-10">
+        <canvas id="chartId" />
+      </div>
+    </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="is-striped" id="death-table" hx-get="/hx/v1/data/deaths" hx-trigger="revealed"></div>
+      <sup>source: https://www150.statcan.gc.ca/n1/daily-quotidien/231127/t001b-eng.htm</sup>
+    </div>
+  </section>
+{% endblock %}

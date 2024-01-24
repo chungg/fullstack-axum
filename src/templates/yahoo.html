@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}finance{% endblock %}
+{% block body_content %}
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Finance
+      </h1>
+      <hr></hr>
+      <form
+        hx-boost="true"
+        hx-push-url="false"
+        hx-swap="beforeend"
+        hx-target="body"
+        action="/api/v1/data/market/prices"
+        method="GET">
+        <div class="field has-addons">
+          <div class="control">
+            <input class="input" id="tickerSearch" type="text" name="ticker" placeholder="Ticker">
+          </div>
+          <div class="control">
+            <button class="button is-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+      <canvas id="priceChart"></canvas>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="is-striped" id="priceTable"></div>
+    </div>
+  </section>
+{% endblock %}
