@@ -95,5 +95,5 @@ pub async fn get_prices(ticker: &str) -> Value {
             )
             .unwrap()
         });
-    &data["chart"]["result"][0]
+    data["chart"]["result"][0].clone()
 }
