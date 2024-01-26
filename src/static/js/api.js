@@ -47,7 +47,7 @@ function handler(evt) {
     case "/hx/v1/data/random":
       updateChart(data, "chartId");
       break;
-    case "/hx/v1/data/market/prices":
+    case "/hx/v1/market/prices":
       displayPrices(data);
       break;
   }

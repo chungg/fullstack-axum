@@ -1,5 +1,7 @@
+use chrono::{NaiveDateTime, Utc};
 use polars::prelude::*;
 use rand::Rng;
+use reqwest;
 use serde_json::{json, Value};
 
 pub fn random_data() -> Value {
@@ -49,4 +51,49 @@ pub fn death_data() -> DataFrame {
         .unwrap()
         .collect()
         .unwrap()
+}
+
+const USER_AGENT: &str = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) \
+    AppleWebKit/537.36 (KHTML, like Gecko) \
+    Chrome/39.0.2171.95 Safari/537.36";
+
+pub async fn get_prices(ticker: &str) -> Value {
+    let client = reqwest::Client::new();
+    let res = client
+        .get(format!(
+            "https://query2.finance.yahoo.com/v8/finance/chart/{}",
+            ticker
+        ))
+        .header("User-Agent", USER_AGENT)
+        .query(&[
+            ("interval", "1d"),
+            ("events", "capitalGain|div|split"),
+            (
+                "period1",
+                &NaiveDateTime::parse_from_str("2023-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
+                    .unwrap()
+                    .timestamp()
+                    .to_string(),
+            ),
+            ("period2", &Utc::now().timestamp().to_string()),
+        ])
+        .send()
+        .await
+        .unwrap();
+    // https://www.petergirnus.com/blog/rust-reqwest-http-get-json
+    let mut data: serde_json::Value = res.json().await.unwrap();
+    data["chart"]["result"][0]["timestamp"]
+        .as_array_mut()
+        .unwrap()
+        .iter_mut()
+        .for_each(|x| {
+            *x = serde_json::to_value(
+                NaiveDateTime::from_timestamp_opt(x.as_i64().unwrap(), 0)
+                    .unwrap()
+                    .format("%Y-%m-%d")
+                    .to_string(),
+            )
+            .unwrap()
+        });
+    &data["chart"]["result"][0]
 }
