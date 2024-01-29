@@ -38,4 +38,4 @@ jobs:
           curl -L https://github.com/biomejs/biome/releases/download/cli%2Fv1.3.3/biome-linux-x64 -o biome
           chmod +x biome
       - name: check style
-        run: ./biome check app/static
+        run: ./biome check src/static/js

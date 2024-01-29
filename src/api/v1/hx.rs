@@ -15,7 +15,7 @@ fn wrap_data(data: String, headers: HeaderMap, req: Request) -> impl IntoRespons
     let res_headers = [(
         "HX-Trigger-After-Swap",
         json!({"apiResponse": {"origin": headers.get("hx-current-url").unwrap().to_str().unwrap(),
-                               "path": req.uri().to_string().split("?").next().unwrap_or(""),
+                               "path": req.uri().to_string().split('?').next().unwrap_or(""),
                                "dataId": data_id}})
         .to_string(),
     )];
