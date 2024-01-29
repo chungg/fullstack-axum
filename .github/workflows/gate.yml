@@ -1,0 +1,41 @@
+name: gate
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  check-style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+      - name: check style
+        uses: actions-rust-lang/rustfmt@v1
+
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: clippy
+      - name: lint
+        run: cargo clippy
+
+  check-web-style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: install dependencies
+        run: |
+          curl -L https://github.com/biomejs/biome/releases/download/cli%2Fv1.3.3/biome-linux-x64 -o biome
+          chmod +x biome
+      - name: check style
+        run: ./biome check app/static
