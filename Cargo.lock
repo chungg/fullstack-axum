@@ -516,6 +516,8 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "chrono",
+ "http-body-util",
+ "hyper-util",
  "minijinja",
  "polars",
  "pretty_assertions",
@@ -525,6 +527,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+ "tower",
  "tower-http",
  "uuid",
 ]
@@ -853,6 +856,7 @@ dependencies = [
  "itoa",
  "pin-project-lite",
  "tokio",
+ "want",
 ]
 
 [[package]]
@@ -883,6 +887,8 @@ dependencies = [
  "pin-project-lite",
  "socket2",
  "tokio",
+ "tower",
+ "tower-service",
  "tracing",
 ]
 

@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 axum = "*"
 chrono = "0.4.33"
+hyper-util = { version = "0.1.2", features = ["client-legacy"] }
 minijinja = { version = "1.0.12", features = ["loader"] }
 polars = { version = "0.36.2", features = ["lazy", "csv", "dtype-date", "json", "serde-lazy", "strings", "timezones"] }
 rand = "0.8.5"
@@ -15,9 +16,11 @@ reqwest = { version = "0.11.23", features = ["json"] }
 serde = { version = "1.0.195", features = ["derive"] }
 serde_json = "1.0.111"
 tokio = { version = "1.35.1", features = ["full"] }
+tower = { version = "0.4.13", features = ["util"] }
 tower-http = { version = "0.5.1", features = ["fs"] }
 uuid = { version = "1.7.0", features = ["v4"] }
 
 [dev-dependencies]
+http-body-util = "0.1.0"
 pretty_assertions = "1.4.0"
 rstest = "0.18.2"
