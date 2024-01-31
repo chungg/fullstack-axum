@@ -5,11 +5,12 @@ mod views;
 #[cfg(test)]
 mod tests;
 
+use std::sync::Arc;
+
 use axum::{routing::get, Router};
 use minijinja::{path_loader, Environment};
-use tower_http::services::ServeDir;
-
-use std::sync::Arc;
+use tower_http::{services::ServeDir, trace::TraceLayer};
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use crate::api::v1;
 use crate::views::pages;
@@ -20,8 +21,20 @@ pub struct AppState {
 
 #[tokio::main]
 async fn main() {
+    tracing_subscriber::registry()
+        .with(
+            tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
+                // axum logs rejections from built-in extractors with the `axum::rejection`
+                // target, at `TRACE` level. `axum::rejection=trace` enables showing those events
+                "fullstack_axum=debug,tower_http=debug,axum::rejection=trace".into()
+            }),
+        )
+        .with(tracing_subscriber::fmt::layer())
+        .init();
+
     // run our app with hyper, listening globally on port 3000
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    tracing::info!("listening on {}", listener.local_addr().unwrap());
     axum::serve(listener, app()).await.unwrap();
 }
 
@@ -45,4 +58,5 @@ fn app() -> Router {
         .route("/yahoo", get(pages::yahoo))
         .nest_service("/static/js", ServeDir::new("src/static/js"))
         .with_state(Arc::new(AppState { jinja: minijinja }))
+        .layer(TraceLayer::new_for_http())
 }

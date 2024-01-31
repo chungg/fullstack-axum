@@ -35,9 +35,6 @@ sample app which provides:
   - https://github.com/LukeMathWalker/pavex
 
 # todo
-- docker
-- actions integration
 - sqlx integration
 - openapi
 - auth support
-- logging via https://lib.rs/crates/tracing
