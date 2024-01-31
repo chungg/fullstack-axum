@@ -2,6 +2,9 @@ mod api;
 mod core;
 mod views;
 
+#[cfg(test)]
+mod tests;
+
 use axum::{routing::get, Router};
 use minijinja::{path_loader, Environment};
 use tower_http::services::ServeDir;

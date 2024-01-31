@@ -97,21 +97,3 @@ pub async fn get_prices(ticker: &str) -> Value {
         });
     data["chart"]["result"][0].clone()
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_random_endpoint() {
-        let data = random_data();
-        assert!(data.as_object().unwrap()["datasets"][0]["data"].is_array());
-        assert_eq!(
-            data.as_object().unwrap()["datasets"][0]["data"]
-                .as_array()
-                .unwrap()
-                .len(),
-            6
-        );
-    }
-}

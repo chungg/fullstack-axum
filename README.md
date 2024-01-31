@@ -14,6 +14,17 @@ sample app which provides:
 - install [rust](https://www.rust-lang.org/tools/install)
 - `cargo r`
 
+## running tests
+
+### styling
+
+- `cargo fmt`
+
+### unit
+
+- install [nextest](https://nexte.st/book/pre-built-binaries.html) (optional)
+- `cargo nextest r` or `cargo test`
+
 ## resources
 - https://www.shuttle.rs/blog/2023/12/06/using-axum-rust
 - openapi
