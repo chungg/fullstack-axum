@@ -17,13 +17,19 @@ pub struct AppState {
 
 #[tokio::main]
 async fn main() {
-    //// setup jinja
+    // run our app with hyper, listening globally on port 3000
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    axum::serve(listener, app()).await.unwrap();
+}
+
+fn app() -> Router {
+    // setup jinja
     let mut minijinja = Environment::new();
     minijinja.set_loader(path_loader("src/templates"));
 
     // application routes
-    let app = Router::new()
-        //.route("/", get(|| async { "Hello, World!" }))
+    Router::new()
+        .route("/health", get(|| async { "¯\\_(ツ)_/¯" }))
         .route("/api/v1/data/random", get(v1::routes::random_data))
         .route("/api/v1/data/sales", get(v1::routes::sales_data))
         .route("/api/v1/market/prices", get(v1::routes::price_data))
@@ -35,9 +41,5 @@ async fn main() {
         .route("/analytics", get(pages::analytics))
         .route("/yahoo", get(pages::yahoo))
         .nest_service("/static/js", ServeDir::new("src/static/js"))
-        .with_state(Arc::new(AppState { jinja: minijinja }));
-
-    // run our app with hyper, listening globally on port 3000
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+        .with_state(Arc::new(AppState { jinja: minijinja }))
 }
