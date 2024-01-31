@@ -13,5 +13,5 @@ pub async fn sales_data() -> Json<Value> {
 }
 
 pub async fn price_data(Query(params): Query<hx::PriceParams>) -> Json<Value> {
-    Json(services::get_prices(&params.ticker).await)
+    Json(services::get_prices(&params.ticker))
 }
