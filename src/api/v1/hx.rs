@@ -46,7 +46,7 @@ pub async fn price_data(
     Query(params): Query<PriceParams>,
     req: Request,
 ) -> impl IntoResponse {
-    let data = services::get_prices(&params.ticker).await.to_string();
+    let data = services::get_prices(&params.ticker).to_string();
     wrap_data(data, headers, req)
 }
 
