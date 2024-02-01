@@ -1,3 +1,5 @@
+[![gate](https://github.com/chungg/fullstack-axum/actions/workflows/gate.yml/badge.svg)](https://github.com/chungg/fullstack-axum/actions/workflows/gate.yml)
+
 # axum + htmx + bulma
 
 sample app which provides:
