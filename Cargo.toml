@@ -8,11 +8,14 @@ edition = "2021"
 [dependencies]
 axum = "0.7.4"
 chrono = "0.4.33"
+config = "0.14.0"
+garde = { version = "0.18.0", features = ["derive", "url"] }
 hyper-util = { version = "0.1.2", features = ["client-legacy"] }
 minijinja = { version = "1.0.12", features = ["loader"] }
 polars = { version = "0.36.2", features = ["lazy", "csv", "dtype-date", "json", "serde-lazy", "strings", "timezones"] }
 rand = "0.8.5"
 serde = { version = "1.0.195", features = ["derive"] }
+serde_derive = "1.0.196"
 serde_json = "1.0.111"
 tokio = { version = "1.35.1", features = ["full"] }
 tower = { version = "0.4.13", features = ["util", "tracing"] }
@@ -20,6 +23,7 @@ tower-http = { version = "0.5.1", features = ["fs", "trace"] }
 tracing = "0.1.40"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 ureq = { version = "2.9.4", features = ["json"] }
+url = "2.3.1"
 uuid = { version = "1.7.0", features = ["v4"] }
 
 [dev-dependencies]
