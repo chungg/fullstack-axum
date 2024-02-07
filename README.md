@@ -29,6 +29,9 @@ sample app which provides:
 
 ## resources
 - https://www.shuttle.rs/blog/2023/12/06/using-axum-rust
+- testing
+  - https://www.youtube.com/watch?v=_cYIhG_3qSo
+  - https://github.com/rstropek/rust-samples/blob/master/axum-di-testing/axum-di/src/main.rs
 - openapi
   - https://github.com/tamasfe/aide
   - https://github.com/ProbablyClem/utoipauto
@@ -37,7 +40,5 @@ sample app which provides:
   - https://github.com/LukeMathWalker/pavex
 
 # todo
-- sqlx integration
 - openapi
 - auth support
-https://github.com/mehcode/config-rs/blob/master/examples/hierarchical-env/settings.rs

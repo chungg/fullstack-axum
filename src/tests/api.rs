@@ -13,8 +13,9 @@ use crate::tests::fixtures::*;
 
 #[rstest]
 #[tokio::test]
-async fn test_healthcheck(app: Router) {
+async fn test_healthcheck(#[future] app: Router) {
     let response = app
+        .await
         .oneshot(
             Request::builder()
                 .uri("/health")
