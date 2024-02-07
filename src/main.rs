@@ -1,5 +1,6 @@
 mod api;
 mod core;
+mod settings;
 mod views;
 
 #[cfg(test)]
@@ -13,10 +14,12 @@ use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use crate::api::v1;
+use crate::settings::Settings;
 use crate::views::pages;
 
 pub struct AppState {
     pub jinja: Environment<'static>,
+    pub settings: Settings,
 }
 
 #[tokio::main]
@@ -42,6 +45,7 @@ fn app() -> Router {
     // setup jinja
     let mut minijinja = Environment::new();
     minijinja.set_loader(path_loader("src/templates"));
+    let settings = Settings::new().unwrap();
 
     // application routes
     Router::new()
@@ -57,6 +61,9 @@ fn app() -> Router {
         .route("/analytics", get(pages::analytics))
         .route("/yahoo", get(pages::yahoo))
         .nest_service("/static/js", ServeDir::new("src/static/js"))
-        .with_state(Arc::new(AppState { jinja: minijinja }))
+        .with_state(Arc::new(AppState {
+            jinja: minijinja,
+            settings,
+        }))
         .layer(TraceLayer::new_for_http())
 }

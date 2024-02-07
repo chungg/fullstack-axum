@@ -40,3 +40,4 @@ sample app which provides:
 - sqlx integration
 - openapi
 - auth support
+https://github.com/mehcode/config-rs/blob/master/examples/hierarchical-env/settings.rs

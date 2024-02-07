@@ -42,6 +42,9 @@ jobs:
 
   run-unit-tests:
     runs-on: ubuntu-latest
+    env:
+      APP_DATABASE_URI: postgresql://postgres:postgres@localhost/postgres
+      APP_ENV: ci
     steps:
       - uses: actions/checkout@v4
       - name: setup rust
