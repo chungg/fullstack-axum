@@ -1,7 +1,10 @@
-use chrono::{NaiveDateTime, Utc};
+use std::time::{SystemTime, UNIX_EPOCH};
+
 use polars::prelude::*;
 use rand::Rng;
 use serde_json::{json, Value};
+use time::macros::{datetime, format_description};
+use time::OffsetDateTime;
 
 pub fn random_data() -> Value {
     let mut rng = rand::thread_rng();
@@ -66,28 +69,36 @@ pub fn get_prices(ticker: &str) -> Value {
         ("events", "capitalGain|div|split"),
         (
             "period1",
-            &NaiveDateTime::parse_from_str("2023-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
-                .unwrap()
-                .timestamp()
+            &datetime!(2023-01-01 00:00:00)
+                .assume_utc()
+                .unix_timestamp()
                 .to_string(),
         ),
-        ("period2", &Utc::now().timestamp().to_string()),
+        (
+            "period2",
+            &SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_secs()
+                .to_string(),
+        ),
     ])
     .call()
     .unwrap();
 
     // https://www.petergirnus.com/blog/rust-reqwest-http-get-json
     let mut data: serde_json::Value = res.into_json().unwrap();
+    let format = format_description!("[year]-[month]-[day]");
     data["chart"]["result"][0]["timestamp"]
         .as_array_mut()
         .unwrap()
         .iter_mut()
         .for_each(|x| {
             *x = serde_json::to_value(
-                NaiveDateTime::from_timestamp_opt(x.as_i64().unwrap(), 0)
+                OffsetDateTime::from_unix_timestamp(x.as_i64().unwrap())
                     .unwrap()
-                    .format("%Y-%m-%d")
-                    .to_string(),
+                    .format(&format)
+                    .unwrap(),
             )
             .unwrap()
         });
