@@ -4,10 +4,9 @@ use serde_derive::Deserialize;
 use url::Url;
 
 fn is_valid_uri<T>(value: &str, _: T) -> garde::Result {
-    match Url::parse(value) {
-        Ok(_) => Ok(()),
-        Err(e) => Err(garde::Error::new(e.to_string())),
-    }
+    Url::parse(value)
+        .map(|_| ())
+        .map_err(|e| garde::Error::new(e.to_string()))
 }
 
 #[derive(Debug, Default, Deserialize, Validate)]
@@ -26,10 +25,12 @@ impl Settings {
             // take any env var with APP_*
             .add_source(Environment::with_prefix("APP"))
             .build()?;
-        let conf = conf.try_deserialize::<Settings>().unwrap();
-        match conf.validate(&()) {
-            Ok(_) => Ok(conf),
-            Err(e) => Err(ConfigError::Message(e.to_string())),
-        }
+        let settings = conf.try_deserialize::<Settings>()?;
+
+        settings
+            .validate()
+            .map_err(|e| ConfigError::Message(e.to_string()))?;
+
+        Ok(settings)
     }
 }
