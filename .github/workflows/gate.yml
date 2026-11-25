@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: install dependencies
         run: |
-          curl -L https://github.com/biomejs/biome/releases/download/cli%2Fv1.3.3/biome-linux-x64 -o biome
+          curl -L https://github.com/biomejs/biome/releases/download/@biomejs/biome@2.6.9/biome-linux-x64 -o biome
           chmod +x biome
       - name: check style
         run: ./biome check src/static/js
