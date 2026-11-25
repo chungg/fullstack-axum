@@ -6,6 +6,7 @@ use axum::{
 use polars::prelude::*;
 use serde::Deserialize;
 use serde_json::json;
+use utoipa::IntoParams;
 use uuid::Uuid;
 
 use crate::core::services;
@@ -36,7 +37,7 @@ pub async fn sales_data(headers: HeaderMap, req: Request) -> impl IntoResponse {
     wrap_data(data, headers, req)
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, IntoParams)]
 pub struct PriceParams {
     pub ticker: String,
 }
