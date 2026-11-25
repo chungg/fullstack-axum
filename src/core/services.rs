@@ -1,4 +1,4 @@
-use chrono::{DateTime, NaiveDateTime, Utc};
+use jiff::{tz::TimeZone, Timestamp};
 use polars::prelude::*;
 use rand::RngExt;
 use serde_json::{json, Value};
@@ -88,12 +88,14 @@ const USER_AGENT: &str = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:160.0
     Firefox/160.0 ";
 
 pub fn get_prices(ticker: &str) -> Value {
-    let period1 = NaiveDateTime::parse_from_str("2023-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
+    let period1 = jiff::civil::date(2023, 1, 1)
+        .at(0, 0, 0, 0)
+        .to_zoned_datetime(TimeZone::UTC)
         .unwrap()
-        .and_utc()
         .timestamp()
+        .as_second()
         .to_string();
-    let period2 = Utc::now().timestamp().to_string();
+    let period2 = Timestamp::now().as_second().to_string();
 
     let query_params = vec![
         ("interval", "1d".to_string()),
@@ -116,9 +118,9 @@ pub fn get_prices(ticker: &str) -> Value {
     if let Some(timestamps) = data["chart"]["result"][0]["timestamp"].as_array_mut() {
         for ts in timestamps.iter_mut() {
             if let Some(secs) = ts.as_i64() {
-                let formatted = DateTime::from_timestamp(secs, 0)
+                let formatted = Timestamp::from_second(secs)
                     .unwrap()
-                    .format("%Y-%m-%d")
+                    .strftime("%Y-%m-%d")
                     .to_string();
                 *ts = serde_json::Value::String(formatted);
             }

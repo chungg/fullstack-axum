@@ -7,9 +7,9 @@ edition = "2021"
 
 [dependencies]
 axum = "0.8.9"
-chrono = "0.4.45"
 config = "0.15.27"
 garde = { version = "0.23.0", features = ["derive", "url"] }
+jiff = "1.0.3"
 minijinja = { version = "3.1.0" }
 polars = { version = "0.55.2", features = ["lazy", "csv", "dtype-date", "json", "serde-lazy", "strings", "timezones"] }
 rand = "0.10.4"
