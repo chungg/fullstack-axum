@@ -33,12 +33,9 @@ sample app which provides:
   - https://www.youtube.com/watch?v=_cYIhG_3qSo
   - https://github.com/rstropek/rust-samples/blob/master/axum-di-testing/axum-di/src/main.rs
 - openapi
-  - https://github.com/tamasfe/aide
-  - https://github.com/ProbablyClem/utoipauto
+  - https://docs.rs/utoipa-axum/latest/utoipa_axum/index.html
 - alt frameworks
-  - https://github.com/poem-web/poem
-  - https://github.com/LukeMathWalker/pavex
+  - https://github.com/tokio-rs/topcoat
 
 # todo
-- openapi
 - auth support
